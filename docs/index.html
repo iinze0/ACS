@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ACS — Air Crack Station</title>
+  <meta name="description" content="ACS — Air Crack Station. Made by Pakun & iinze0." />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #07090a;
+      color: #d7f5e3;
+      font: 16px/1.5 ui-sans-serif, system-ui, sans-serif;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 20px 80px; }
+    h1 { font-size: 2rem; margin: 0 0 8px; letter-spacing: -0.03em; }
+    .by { color: #e8c547; margin: 0 0 28px; }
+    h2 { font-size: 1.05rem; margin: 28px 0 8px; }
+    pre {
+      background: #101614;
+      border: 1px solid #24332b;
+      border-radius: 8px;
+      padding: 14px 16px;
+      overflow: auto;
+      color: #3dff8a;
+      font: 13px/1.45 ui-monospace, monospace;
+    }
+    a { color: #3dff8a; }
+    .muted { color: #6d8a7a; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>ACS — Air Crack Station</h1>
+    <p class="by">Made by Pakun & iinze0</p>
+
+    <h2>Install (use dpkg — apt /tmp will fail)</h2>
+    <pre>wget -O /tmp/acs.deb https://github.com/iinze0/ACS/releases/download/v1.4.0/acs_1.4.0_all.deb
+sudo dpkg -i /tmp/acs.deb
+sudo ACS</pre>
+
+    <h2>One-liner</h2>
+    <pre>curl -fsSL https://raw.githubusercontent.com/iinze0/ACS/main/install-acs.sh | sudo bash
+sudo ACS</pre>
+
+    <p>You should see <strong>v1.4.0</strong> and <strong>Made by Pakun & iinze0</strong>.</p>
+    <pre>dpkg -s acs | grep Version</pre>
+    <p>Uninstall: <code>sudo apt purge acs</code></p>
+
+    <h2>Launch</h2>
+    <pre>sudo ACS</pre>
+    <p>Also: <strong>Applications → ACS</strong></p>
+    <p class="muted">Authorized lab / pentest use only. On launch, ACS checks GitHub and installs a newer package by itself.</p>
+    <p>
+      <a href="https://github.com/iinze0">github.com/iinze0</a><br />
+      <a href="https://github.com/iinze0/ACS">github.com/iinze0/ACS</a>
+    </p>
+  </main>
+</body>
+</html>
