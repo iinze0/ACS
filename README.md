@@ -2,8 +2,6 @@
 
 **Made by Pakun & iinze0**
 
-Page: [iinze0.github.io/ACS](https://iinze0.github.io/ACS/)
-
 ## Install (use dpkg — apt /tmp will fail)
 
 ```bash
