@@ -3,11 +3,10 @@
 # ACS — Air Crack Station
 # Made by Pakun & iinze0
 # Authorized lab / pentest use only
-# Local build — not a GitHub release
 ###############################################
 set -o pipefail
 
-ACS_VER="1.2.0"
+ACS_VER="1.3.0"
 ACS_AUTHOR="Pakun & iinze0"
 SESSION_DIR="${ACS_HOME:-$HOME/.acs}"
 SESSION_FILE="$SESSION_DIR/session"
@@ -585,10 +584,63 @@ do_proxy_run() {
   pause
 }
 
+# ---------- update ----------
+
+ACS_RAW="https://raw.githubusercontent.com/iinze0/ACS/main/acs.sh"
+
+ver_newer() {
+  # true when $1 is a higher version than $2
+  [[ -n $1 && -n $2 && $1 != "$2" ]] || return 1
+  local top
+  top=$(printf '%s\n%s\n' "$2" "$1" | sort -V | tail -n1)
+  [[ $top == "$1" ]]
+}
+
+apply_update() {
+  local dest tmp remote
+  have curl || { bad "curl missing"; return 1; }
+  dest=$(readlink -f "$0" 2>/dev/null || echo "$0")
+  tmp=$(mktemp)
+  echo -e "${CYAN}Downloading ACS…${NC}"
+  if ! curl -fsSL --max-time 25 -A "acs-update" "$ACS_RAW" -o "$tmp"; then
+    rm -f "$tmp"
+    bad "could not reach GitHub"
+    return 1
+  fi
+  remote=$(sed -n 's/^ACS_VER="\([^"]*\)"/\1/p' "$tmp" | head -n1)
+  if ! ver_newer "$remote" "$ACS_VER"; then
+    rm -f "$tmp"
+    ok "already on v$ACS_VER"
+    return 1
+  fi
+  if ! bash -n "$tmp"; then
+    rm -f "$tmp"
+    bad "downloaded script failed a syntax check — not installed"
+    return 1
+  fi
+  cp "$tmp" "$dest"
+  chmod +x "$dest"
+  rm -f "$tmp"
+  ok "updated v$ACS_VER → v$remote"
+  echo "Restarting…"
+  exec bash "$dest"
+}
+
+auto_update() {
+  [[ ${ACS_NO_UPDATE:-0} == 1 ]] && return 0
+  have curl || return 0
+  local remote
+  remote=$(curl -fsSL --max-time 8 -A "acs-update" "$ACS_RAW" 2>/dev/null | sed -n 's/^ACS_VER="\([^"]*\)"/\1/p' | head -n1) || return 0
+  ver_newer "$remote" "$ACS_VER" || return 0
+  echo -e "${YELLOW}Update found: v$ACS_VER → v$remote${NC}"
+  apply_update || true
+}
+
 # ---------- start ----------
 
 [[ $EUID -ne 0 ]] && { bad "run: sudo bash acs.sh"; exit 1; }
 mkdir -p "$SESSION_DIR"
+auto_update
 show_banner
 if [[ -f $SESSION_FILE ]] && confirm "Load saved session?"; then
   load_session || true
@@ -613,6 +665,7 @@ while true; do
   echo "  3) Restore managed           4) Set target"
   echo " 38) Wordlist                 39) Change interface"
   echo " 40) Save session             41) Load session"
+  echo " 45) Check for updates"
   echo -e "${YELLOW}Proxy chain${NC}"
   echo " 42) Pull proxies from GitHub 43) Test chain"
   echo " 44) Run a command through the chain"
@@ -841,6 +894,7 @@ while true; do
     42) do_proxychain ;;
     43) do_proxy_test ;;
     44) do_proxy_run ;;
+    45) apply_update || pause ;;
     0)
       if [[ -n $MON ]] && confirm "Restore managed mode before exit?"; then
         restore_managed

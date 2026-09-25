@@ -44,3 +44,7 @@ Options **42–44** pull live proxy IPs from GitHub (TheSpeedX, monosans, hookzo
 43  test direct IP vs chain
 44  run a command through proxychains4 -f
 ```
+
+## Updates
+
+On launch, ACS checks GitHub and replaces itself when a newer `ACS_VER` is published. Option **45** checks by hand. Skip with `ACS_NO_UPDATE=1`.
