@@ -1,0 +1,13 @@
+Package: acs
+Version: 1.4.0
+Section: utils
+Priority: optional
+Architecture: all
+Depends: bash, curl, ca-certificates, iproute2
+Recommends: aircrack-ng, iw, wireless-tools, hashcat, hcxdumptool, hcxtools, proxychains4
+Maintainer: Pakun & iinze0 <iinze0@users.noreply.github.com>
+Homepage: https://github.com/iinze0/ACS
+Description: ACS — Air Crack Station (Made by Pakun & iinze0)
+ Kali menu for authorized lab / pentest work.
+ Launch with: sudo ACS
+Installed-Size: 80
