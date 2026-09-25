@@ -34,3 +34,13 @@ Plus station extras: hashcat, hcxdumptool, hcxtools, wifite, reaver, bully, pixi
 
 - [iinze0](https://github.com/iinze0)
 - [brazyqueso](https://github.com/brazyqueso)
+
+## Proxy chain (v1.2.0)
+
+Options **42–44** pull live proxy IPs from GitHub (TheSpeedX, monosans, hookzof), write `~/.acs/proxychains.conf`, test the chain, or run one command through it.
+
+```text
+42  pull proxies (socks5 / socks4 / http, hop count, dynamic|strict|random)
+43  test direct IP vs chain
+44  run a command through proxychains4 -f
+```
