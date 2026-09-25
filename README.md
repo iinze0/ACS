@@ -29,3 +29,8 @@ Plus station extras: hashcat, hcxdumptool, hcxtools, wifite, reaver, bully, pixi
 
 - Use a wireless card that supports monitor mode and injection.
 - Do not run this against networks you do not own or have written permission to test.
+
+## Contributors
+
+- [iinze0](https://github.com/iinze0)
+- [brazyqueso](https://github.com/brazyqueso)
